@@ -1,0 +1,73 @@
+fragment FullCall on Call {
+  id
+  direction
+  from
+  to
+  duration
+  is_archived
+  call_type
+  via
+  created_at
+  notes {
+    id
+    content
+    __typename
+  }
+  __typename
+}
+
+fragment FullAuth on AuthResponseType {
+  access_token
+  refresh_token
+  user {
+    username
+    __typename
+  }
+  __typename
+}
+
+mutation SignIn($input: LoginInput!) {
+  login(input: $input) {
+    ...FullAuth
+  }
+}
+
+mutation RefreshTokenV2 {
+  refreshTokenV2 {
+    ...FullAuth
+  }
+}
+
+query GetPaginatedCalls($offset: Float, $limit: Float) {
+  paginatedCalls(offset: $offset, limit: $limit) {
+    nodes {
+      ...FullCall
+    }
+    totalCount
+    hasNextPage
+  }
+}
+
+mutation ArchiveCall($id: ID!) {
+  archiveCall(id: $id) {
+    ...FullCall
+  }
+}
+
+mutation AddNote($input: AddNoteInput!) {
+  addNote(input: $input) {
+    ...FullCall
+  }
+}
+
+query GetCall($id: ID!) {
+  call(id: $id) {
+    ...FullCall
+  }
+}
+
+subscription OnUpdatedCall {
+  onUpdatedCall {
+    ...FullCall
+  }
+}

@@ -1,0 +1,9 @@
+schema: https://frontend-test-api.aircall.io/graphql
+generates:
+  ./src/types.d.ts:
+    plugins:
+      - typescript
+  ./src/queries/queries.d.ts:
+    documents: ./src/queries/queries.graphql
+    plugins:
+      - typescript-graphql-files-modules
